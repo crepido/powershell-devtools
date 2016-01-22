@@ -1,4 +1,7 @@
 
+. "$PSScriptRoot\Connect-Mstsc.ps1"
+
+
 function Login()
 {
     $profileSettingsFile = Get-Item (join-path (Get-Location)  "glenn.azureprofile")
@@ -55,6 +58,12 @@ function SwitchOn($vmName)
     
 }
 
+function ConnectRDP($vmName, $user, $passWord)
+{    
+    $ip = (Get-AzureRmPublicIpAddress -Name $vmName -ResourceGroupName $vmName).IpAddress 
+    Connect-Mstsc $ip  $user $password    
+}
+
 
     
 Write-Host "Devtool started"
@@ -62,11 +71,6 @@ Login
 ListVMs
 #ShutOff "dev"
 #SwitchOn "dev"
+ConnectRDP "dev" "Glenn" "password"
 
 
-
-
-
-
-#Get-AzureRmResourceGroup
- 
